@@ -1,8 +1,7 @@
-HAMT and CHAMP benchmark
+HAMT benchmark
 
 Insert integer items to a Hash Array Mapped Trie (HAMT).
-Insert key-value pairs in Compressed Hash Array Mapped Prefix Trie(CHAMP) where key is integer and value is Entity object.
-All elements of the HAMT and CHAMP are immutable.
+All elements of the HAMT are immutable.
 
 Usage: java Benchmark [options]
 
