@@ -1,4 +1,4 @@
-xml benchmark
+#xml benchmark
 
 Parses a protein database in a semi-stream manner where it parses a subtree for a single protein to a DOM using the Java API for XML Processing (JAXP).
 
