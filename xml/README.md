@@ -19,9 +19,10 @@ Run benchmark with default options
 chmod +x run.sh
 bash run.sh
 ```
- 
 
 Run benchmark with different options
+```
 Usage: java -Xms5000m -Xmx5000m Main [options] [path/to/dataset]
   -r  NROUNDS  number of rounds of benchmark
   -t  NTHREADS number of threads
+```
