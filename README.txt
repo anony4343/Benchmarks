@@ -1,11 +1,1 @@
-HAMT benchmark
-
-Insert integer items to a Hash Array Mapped Trie (HAMT).
-All elements of the HAMT are immutable.
-
-Usage: java Benchmark [options]
-
-  -r  NROUNDS  number of rounds of benchmark
-  -n  N        number of operations in a single round
-  -t  NTHREADS number of threads
-  -b  B        number of items in a batch
+This repository contains the HAMT, CHAMPand XML benchmarks, The detailed instructions to run the benchmarks is given in readme files of each benchmark.
