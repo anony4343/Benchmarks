@@ -1,18 +1,19 @@
 // Licensed under the Apache License, Version 2.0.
+//
+// The implementation of CHAMP in io directory is copied from
+// the capsule project.  See io/README for details.
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import io.usethesource.capsule.Map;
 
 class Entity {
 	Integer value;
 	Entity(int v) {
 		value = v;
 	}
-}
-
-class MapHolder {
-	public Hamt<Integer, Entity> map = Hamt.empty();
 }
 
 public class Benchmark {
@@ -24,7 +25,7 @@ public class Benchmark {
 	static final int N =1000 * 1000 * 1;
 	
 	@durable_root
-	static MapHolder mapHolder;
+	static Map.Immutable<Integer, Entity> map = Map.Immutable.of();
 	static final Object lock = new Object();
 	
 	static int nOps = N;
@@ -37,21 +38,21 @@ public class Benchmark {
 		Entity e = new Entity(x);
 		Integer k = x;
 		synchronized(lock) {
-			mapHolder.map = mapHolder.map.set(k, e);
+			map = map.__put(k, e);
 		}
 	}
 
-	static Hamt<Integer, Entity> setInternal(Hamt<Integer, Entity> m, int x) {
+	static Map.Immutable<Integer, Entity> setInternal(Map.Immutable<Integer, Entity> m, int x) {
 		Entity e = new Entity(x);
 		Integer k = x;
-		return m.set(k, e);
+		return m.__put(k, e);
 	}
 	
 	static int get(int x) {
 		Integer k = x;
 		Entity e;
 		synchronized(lock) {
-			e = mapHolder.map.find(k);
+			e = map.get(k);
 		}
 		if (e != null) {
 			if (e.value != x)
@@ -75,14 +76,14 @@ public class Benchmark {
 					verify.add(x);
 			} else {
 				synchronized(lock) {
-					Hamt<Integer, Entity> m = mapHolder.map;
+					Map.Immutable<Integer, Entity> m = map;
 					for (int j = 0; j < batchSize; j++) {
 						int x = r.nextInt() % keyRange;
 						m = setInternal(m, x);
 						if (VERIFY)
 							verify.add(x);
 					}
-					mapHolder.map = m;
+					map = m;
 				}
 			}
 		}
@@ -113,6 +114,7 @@ public class Benchmark {
 			try {
 				ts[i].join();
 			} catch (InterruptedException e) {
+				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
 	}
@@ -142,7 +144,7 @@ public class Benchmark {
 				doBenchmark(0);
 			}
 			long end = System.currentTimeMillis();
-			System.out.println(String.format("thread %d round %d n %d time %.2f", nThreads, r, nOps, (end - start) * 0.001, args));
+			System.out.println(String.format("Capsule Map thread %d round %d n %d time %.2f", nThreads, r, nOps, (end - start) * 0.001, args));
 		}
 	}
 }
