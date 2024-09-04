@@ -113,11 +113,13 @@ public class Benchmark {
 			try {
 				ts[i].join();
 			} catch (InterruptedException e) {
+				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
 	}
 	
 	public static void main(String[] args) {
+		mapHolder = new MapHolder();
 		for (int i = 0; i < args.length; i++) {
 			switch (args[i++]) {
 			case "-r":
